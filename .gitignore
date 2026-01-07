@@ -49,3 +49,5 @@ yarn-error.*
 *.txt
 *.html
 GOOGLE_SETUP.md
+
+.env.local

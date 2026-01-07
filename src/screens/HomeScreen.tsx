@@ -5,6 +5,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import * as Calendar from 'expo-calendar';
 import { hcmut } from '../services/hcmut';
 import { storage } from '../services/storage';
+import * as Sentry from '@sentry/react-native';
 
 interface HomeScreenProps {
   onLogout: () => void;
@@ -143,6 +144,8 @@ const HomeScreen: React.FC<HomeScreenProps> = ({
             {activeTab === 'home' ? 'Trang chính' : 'Thông báo'}
         </Text>
       </View>
+
+      <Button onPress={ () => { Sentry.captureException(new Error('First error')) }}>Try!</Button>
 
       {/* Filter/Sort Header */}
       <View style={styles.filterHeader}>
