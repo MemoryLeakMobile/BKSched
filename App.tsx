@@ -172,6 +172,7 @@ export default Sentry.wrap(function App() {
             if (response.type === 'success') {
                 setUser(response.data);
                 storage.saveGoogleUser(response.data);
+                Sentry.setUser({ email: response.data.user.email, id: response.data.user.id });
                 setIsInitialFlow(true);
                 setShowLoginScreen(true);
             }
@@ -213,6 +214,8 @@ export default Sentry.wrap(function App() {
             internalId: data.studentInternalId,
             username: data.username
         };
+        Sentry.setUser({ ...user, username: info.id });
+        Sentry.captureMessage("MyBK Login Success", { level: "info" });
         setStudentInfo(info);
 
         const newNotifications: any[] = [];
@@ -263,6 +266,10 @@ export default Sentry.wrap(function App() {
         try {
             const classColors = await storage.getClassColors();
             await calendarService.syncSchedule(scheduleData, classColors);
+            Sentry.captureMessage("Calendar Sync Success", {
+                level: "info",
+                extra: { count: scheduleData.length },
+            });
             Alert.alert("Thành công", `Đã đồng bộ ${scheduleData.length} mục vào Google Calendar (${targetEmail}).`);
         } catch (e: any) {
             console.error(e);
