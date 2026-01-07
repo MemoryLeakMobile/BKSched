@@ -5,6 +5,7 @@ import { storage } from './storage';
 const BASE_CALENDAR_NAME = 'BKSched';
 const DEFAULT_COLOR = '#5E4B8B';
 
+export const calendarService = {
   getCalendarForColor: async (color: string, targetEmail?: string) => {
       let source: any;
       
