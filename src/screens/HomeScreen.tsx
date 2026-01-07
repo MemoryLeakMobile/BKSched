@@ -145,7 +145,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({
         </Text>
       </View>
 
-      <Button onPress={ () => { Sentry.captureException(new Error('First error')) }}>Try!</Button>
+      {/* <Button onPress={ () => { Sentry.captureException(new Error('First error')) }}>Try!</Button> */}
 
       {/* Filter/Sort Header */}
       <View style={styles.filterHeader}>
