@@ -12,6 +12,7 @@ interface ProfileScreenProps {
   onSwitchGoogle: () => void;
   onLoginBK: () => void;
   onLogout: () => void;
+  onCalendarPurge: () => void;
 }
 
 const ProfileScreen: React.FC<ProfileScreenProps> = ({ 
@@ -22,7 +23,8 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({
   onBack, 
   onSwitchGoogle, 
   onLoginBK,
-  onLogout
+  onLogout,
+  onCalendarPurge,
 }) => {
   const insets = useSafeAreaInsets();
   const universityEmail = bkUsername ? `${bkUsername}@hcmut.edu.vn` : '';
@@ -83,6 +85,15 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({
           </View>
           <IconButton icon="chevron-right" iconColor="#49454F" size={24} />
         </TouchableOpacity>
+
+        <Button 
+          mode="outlined" 
+          onPress={onCalendarPurge} 
+          style={styles.logoutButton}
+          textColor="#B3261E"
+        >
+          Xóa lịch
+        </Button>
 
         <Button 
           mode="outlined" 

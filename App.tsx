@@ -270,7 +270,7 @@ export default Sentry.wrap(function App() {
                 level: "info",
                 extra: { count: scheduleData.length },
             });
-            Alert.alert("Thành công", `Đã đồng bộ ${scheduleData.length} mục vào Google Calendar (${targetEmail}).`);
+            Alert.alert("Thành công", `Đã đồng bộ ${scheduleData.length} mục vào lịch cục bộ.`);
         } catch (e: any) {
             console.error(e);
             Alert.alert("Lỗi đồng bộ", e.message || "Không thể đồng bộ lịch.");
@@ -337,6 +337,9 @@ export default Sentry.wrap(function App() {
                         setShowLoginScreen(true);
                     }}
                     onLogout={handleLogout}
+                    onCalendarPurge={async () => {
+                        await calendarService.deleteAllCalendars();
+                    }}
                 />
             </AnimatedScreen>
         );

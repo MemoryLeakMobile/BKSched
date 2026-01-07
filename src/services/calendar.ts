@@ -3,7 +3,8 @@ import { Platform } from 'react-native';
 
 const BASE_CALENDAR_NAME = 'BKSched';
 const DEFAULT_COLOR = '#5E4B8B';
-const ANDROID_LOCAL_ACCOUNT_NAME = 'BKSched_Local_Account';
+const ANDROID_LOCAL_ACCOUNT_NAME = 'BKSched_Sync';
+// const LEGACY_ANDROID_LOCAL_ACCOUNT_NAME = 'BKSched_Local_Account';
 
 export const calendarService = {
     getCalendarForColor: async (color: string) => {
@@ -18,9 +19,9 @@ export const calendarService = {
         } else {
             // Android: We just define the object. We don't "fetch" it.
             source = {
-                isLocalAccount: true,
+                isLocalAccount: false,
                 name: ANDROID_LOCAL_ACCOUNT_NAME,
-                type: Calendar.CalendarType.LOCAL,
+                type: 'com.bksched.app', // perhaps don't hard-code
             };
             // sourceId is not needed/used for creating new local calendars on Android 
             // in the same way it is on iOS.
@@ -158,5 +159,17 @@ export const calendarService = {
             }
         }
         return syncedCount;
+    },
+
+    deleteAllCalendars: async () => {
+        const calendars = await Calendar.getCalendarsAsync(Calendar.EntityTypes.EVENT);
+        const targets = calendars.filter(c => 
+            // c.source.name === LEGACY_ANDROID_LOCAL_ACCOUNT_NAME || 
+            c.source.name === ANDROID_LOCAL_ACCOUNT_NAME || 
+            c.title.startsWith(BASE_CALENDAR_NAME)
+        );
+        for (const cal of targets) {
+            await Calendar.deleteCalendarAsync(cal.id);
+        }
     }
 };

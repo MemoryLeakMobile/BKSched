@@ -1,5 +1,8 @@
 package com.bksched.app
 
+import android.accounts.Account
+import android.accounts.AccountManager
+
 import android.os.Build
 import android.os.Bundle
 
@@ -17,6 +20,26 @@ class MainActivity : ReactActivity() {
     // This is required for expo-splash-screen.
     setTheme(R.style.AppTheme);
     super.onCreate(null)
+    createCalendarAccount()
+  }
+
+  private fun createCalendarAccount() {
+    val accountName = "BKSched_Sync"
+    val accountType = "com.bksched.app"
+    
+    val accountManager = AccountManager.get(this)
+    val accounts = accountManager.getAccountsByType(accountType)
+
+    // Only add if it doesn't exist yet
+    if (accounts.isEmpty()) {
+      val newAccount = Account(accountName, accountType)
+      try {
+        // The 'null' parameters are for password and user data (not needed for stubs)
+        accountManager.addAccountExplicitly(newAccount, null, null)
+      } catch (e: Exception) {
+        e.printStackTrace()
+      }
+    }
   }
 
   /**
